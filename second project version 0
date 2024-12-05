@@ -1,0 +1,136 @@
+Spring Boot Book Management Application version 0
+A Spring Boot project that demonstrates CRUD operations for managing books using Spring Boot, JPA, Hibernate, and MySQL. 
+This project is a learning example to implement RESTful APIs, entity mapping, service layers, repositories, and custom queries.
+
+Table Schema
+Create the book table in MySQL before running the application:
+
+sql
+Copy code
+CREATE TABLE book (
+    id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    description VARCHAR(255) NOT NULL,
+    yearofpublication INT NOT NULL,
+    booktype VARCHAR(255) DEFAULT NULL
+);
+
+Project Structure
+css
+Copy code
+src
+└── main
+    ├── java/com/personal/project/book
+    │   ├── controller/BookController.java
+    │   ├── entity/Book.java
+    │   ├── repository/BookRepository.java
+    │   ├── service/BookService.java
+    │   └── Application.java
+    └── resources
+        ├── application.properties
+        └── data.sql (Optional for preloading data)
+        
+Endpoints
+Base URL
+bash
+Copy code
+http://localhost:8080/second/books
+1. Get All Books
+Method: GET
+
+URL: /second/books/request
+
+Query Parameter (Optional):
+
+booktype: Filter books by their yop.
+Example:
+
+bash
+Copy code
+GET /api/books?yearofpublication=2007
+
+2. Get a Book by ID
+Method: GET
+
+URL: /second/books/{id}
+
+{id}: ID of the book.
+Example:
+
+bash
+Copy code
+GET /second/books/1
+3. Create a Book
+Method: POST
+URL: /api/books
+Body:
+json
+Copy code
+{
+    "name": "Book Name",
+    "description": "Description of the book",
+    "yearofpublication": 2024,
+    "booktype": "Fiction"
+}
+4. Update a Book
+Method: PUT
+
+URL: /second/books/{id}
+
+{id}: ID of the book.
+Body:
+
+json
+Copy code
+{
+    "name": "Updated Book Name",
+    "description": "Updated Description",
+    "yearofpublication": 2025,
+    "booktype": "Non-Fiction"
+}
+5. Delete a Book
+Method: DELETE
+
+URL: /second/books/{id}
+
+{id}: ID of the book.
+Example:
+
+bash
+Copy code
+DELETE /api/books/1
+6. Find Books by Year of Publication (Raw SQL Query)
+Method: GET
+
+URL: /api/books/year
+
+Query Parameter:
+
+year: Year of publication.
+Example:
+
+sql
+Copy code
+GET /api/books/year?year=2024
+
+Running the Application
+Create the book table in your MySQL database.
+Update the application.properties with your database credentials:
+properties
+Copy code
+spring.datasource.url=jdbc:mysql://localhost:3306/your_database_name
+spring.datasource.username=your_username
+spring.datasource.password=your_password
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+
+Start the application with mvn spring-boot:run.
+Use tools like Postman or cURL to interact with the API.
+
+
+
+
+
+
+
+
