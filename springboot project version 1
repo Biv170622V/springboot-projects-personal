@@ -1,0 +1,153 @@
+springboot project version 1 
+
+this is the extended version of the book stroe version 0 with more advanced concepts.
+
+## Overview
+This is a Spring Boot-based bookstore project that demonstrates the use of DTOs, 
+optional classes, and a custom API response structure. The application is designed 
+to handle requests and send responses as objects, with a global exception handler for error management.
+
+## Features
+- API to retrieve book data with optional author information.
+- API to fetch books based on the year of publication.
+- Global exception handling for improved error responses.
+- Custom API response class encapsulating status code, data, and error messages.
+
+## Project Structure
+- **BookDTO**: Data Transfer Object for book details.
+- **AuthorDTO**: Data Transfer Object for author details.
+- **APIResponse**: Encapsulates the status code, data, and error messages.
+- **GlobalExceptionHandler**: Handles exceptions and provides meaningful responses.
+
+## API Endpoints
+
+### 1. Get Book by ID with Optional Author Data
+- **Endpoint**: `GET /second/{id}`
+- **Query Parameter**: `authorData` (true/false)
+
+#### Example
+**Request:**
+```
+http://localhost:8080/second/1?authorData=true
+```
+**Response:**
+```json
+{
+    "id": 1,
+    "name": "2 states",
+    "description": "desc of 2 states",
+    "yearofpublication": 2007,
+    "booktype": "desc of 2 states",
+    "authorDTOS": [
+        {
+            "id": 1,
+            "name": "J.K Rowling",
+            "gender": "female"
+        }
+    ]
+}
+```
+**Request:**
+```
+http://localhost:8080/second/1?authorData=false
+```
+**Response:**
+```json
+{
+    "id": 1,
+    "name": "2 states",
+    "description": "desc of 2 states",
+    "yearofpublication": 2007,
+    "booktype": "desc of 2 states",
+    "authorDTOS": null
+}
+```
+
+### 2. Get Books by Year of Publication
+- **Endpoint**: `GET /second/raw/books`
+- **Query Parameter**: `yop` (comma-separated years)
+
+#### Example
+**Request:**
+```
+http://localhost:8080/second/raw/books?yop=2007,2006
+```
+**Response:**
+```json
+{
+    "status": 200,
+    "data": {
+        "books": [
+            {
+                "id": 1,
+                "name": "2 states",
+                "description": "desc of 2 states",
+                "yearofpublication": 2007,
+                "booktype": "fiction"
+            },
+            {
+                "id": 7,
+                "name": "boys over flowers",
+                "description": "description about boys over flowers",
+                "yearofpublication": 2006,
+                "booktype": "fiction"
+            }
+        ]
+    },
+    "error": null
+}
+```
+
+### 3. Caught Exception Endpoint
+- **Endpoint**: `GET /second/caughtException`
+- **Query Parameter**: `number` (integer)
+
+#### Example
+**Request:**
+```
+http://localhost:8080/second/caughtException?number=100
+```
+**Response:**
+```json
+{
+    "status": 200,
+    "data": 1,
+    "error": null
+}
+```
+
+**Request:**
+```
+http://localhost:8080/second/caughtException?number=50
+```
+**Response:**
+```json
+{
+    "status": 200,
+    "data": 2,
+    "error": null
+}
+```
+
+**Request:**
+```
+http://localhost:8080/second/caughtException?number=0
+```
+**Response:**
+```json
+{
+    "status": 500,
+    "data": null,
+    "error": "Something went wrong.."
+}
+```
+## How to Run
+1. Clone the repository.
+2. Configure the database in `application.properties`.
+3. Run the application using your IDE or `mvn spring-boot:run`.
+4. Access the endpoints using Postman or a web browser.
+
+## Future Enhancements
+- Add user authentication.
+- Implement caching for better performance.
+- Expand error handling for more granular exceptions.
